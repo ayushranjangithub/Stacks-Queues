@@ -1,0 +1,84 @@
+Code : Balanced Parenthesis
+Send Feedback
+For a given a string expression containing only round brackets or parentheses, check if they are balanced or not. Brackets are said to be balanced if the bracket which opens last, closes first.
+
+Example:
+Expression: (()())
+Since all the opening brackets have their corresponding closing brackets, we say it is balanced and hence the output will be, 'true'.
+You need to return a boolean value indicating whether the expression is balanced or not.
+Note:
+The input expression will not contain spaces in between.
+Input Format:
+The first and the only line of input contains a string expression without any spaces in between. Input string will only consists of round brackets.
+ Output Format:
+The only line of output prints 'true' or 'false'.
+Note:
+You don't have to print anything explicitly. It has been taken care of. Just implement the function. 
+Constraints:
+1 <= N <= 10^7
+ Where N is the length of the expression.
+
+Time Limit: 1sec
+Sample Input 1 :
+(()()())
+Sample Output 1 :
+true
+Sample Input 2 :
+()()(()
+Sample Output 2 :
+false
+
+
+#include<stack>
+bool isBalanced(string expr) 
+{
+    // Write your code here
+   stack<char> s;
+   char ch;
+   for (int i=0; i<expr.length(); i++) {    //for each character in the expression, check conditions
+      if (expr[i]=='('||expr[i]=='['||expr[i]=='{') {    //when it is opening bracket, push into     stack
+         s.push(expr[i]);
+        // continue;
+      }
+      if (s.empty()) {   //stack cannot be empty as there must be not opening bracket, there must be closing bracket
+         return false;
+      }
+         switch (expr[i]) {
+            case ')':    //for closing parenthesis, pop it and check for braces and square brackets
+               ch = s.top();
+               s.pop();
+               if (ch=='{' || ch=='[')
+                  return false;
+                  break;
+            case '}': //for closing braces, pop it and check for parenthesis and square brackets
+               ch = s.top();
+               s.pop();
+               if (ch=='(' || ch=='[')
+                  return false;
+                  break;
+            case ']': //for closing square bracket, pop it and check for braces and parenthesis
+               ch = s.top();
+               s.pop();
+               if (ch =='(' || ch == '{')
+                  return false;
+                  break;
+            }
+      }
+      return (s.empty()); //when stack is empty, return true
+
+}
+
+// Main Code:
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+#include "solution.h"
+
+int main() 
+{
+    string input;
+    cin >> input;
+    cout << ((isBalanced(input)) ? "true" : "false");
+}
